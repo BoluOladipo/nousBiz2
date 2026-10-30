@@ -315,7 +315,7 @@ BEGIN
   INTO current_usage
   USING target_business_id, month_start;
 
-  IF current_usage >= 50 THEN
+  IF current_usage >= 30 THEN
     record_label := CASE TG_TABLE_NAME
       WHEN 'sales' THEN 'sales'
       WHEN 'expenses' THEN 'expenses'
@@ -325,7 +325,7 @@ BEGIN
       ELSE TG_TABLE_NAME
     END;
 
-    RAISE EXCEPTION 'FREE_PLAN_LIMIT_REACHED: The Free plan includes 50 new % per calendar month. Upgrade at /billing to continue.', record_label
+    RAISE EXCEPTION 'FREE_PLAN_LIMIT_REACHED: The Free plan includes 30 new % per calendar month. Upgrade at /billing to continue.', record_label
       USING ERRCODE = 'P0001';
   END IF;
 

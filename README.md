@@ -32,8 +32,8 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 ## Billing setup
 
 The app offers Free, Premium (₦4,500/month), and Enterprise (₦9,000/month).
-Free accounts can create up to 50 sales, expenses, invoices, products/services,
-and customers per calendar month in Africa/Lagos time (50 of each). Premium
+Free accounts can create up to 30 sales, expenses, invoices, products/services,
+and customers per calendar month in Africa/Lagos time (30 of each). Premium
 removes these record limits. Enterprise also supports up to 10 business
 members, including the owner. Existing records remain available when a plan
 changes.
@@ -80,6 +80,8 @@ production site URL that customers visit. Never expose secret keys in
 
 ```env
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
 FLW_SECRET_KEY=
 FLW_PREMIUM_PLAN_ID=
@@ -88,8 +90,15 @@ FLW_WEBHOOK_SECRET_HASH=
 ```
 
 `SUPABASE_SERVICE_ROLE_KEY` is available in the Supabase project's API
-settings. `FLW_SECRET_KEY` and the webhook secret hash come from Flutterwave.
-Restart the local Next.js server after changing `.env.local`.
+settings. `NEXT_PUBLIC_SUPABASE_URL` and
+`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` are also in the Supabase project's API
+settings; the publishable key may be labeled as the `anon` key in older
+projects. Add these two public Supabase values to the Vercel project's
+Environment Variables for every environment you deploy (Production, Preview,
+and Development as needed), then redeploy. They are required during Next.js
+static page generation as well as in the browser. `FLW_SECRET_KEY` and the
+webhook secret hash come from Flutterwave. Restart the local Next.js server
+after changing `.env.local`.
 
 ### 4. Configure and test the webhook
 
@@ -108,6 +117,14 @@ payments.
 
 Team invitations are available to Enterprise owners from **Plans & billing**.
 Supabase Auth email invitations must be configured for the project.
+
+## Install NousBiz as an app
+
+The site includes a web app manifest and company-branded icons. On supported
+browsers, visitors can use the **Install app** prompt to add NousBiz to their
+device. On iPhone and iPad, use Safari's **Share → Add to Home Screen** option.
+The installed app opens the regular site, so sign-in, billing, and other online
+features continue to work; offline access is not provided.
 
 ## Deploy on Vercel
 

@@ -3,7 +3,7 @@ export const PLAN_CATALOG = {
     name: "Free",
     amount: 0,
     description: "All current modules, with monthly usage limits.",
-    recordLimit: 50,
+    recordLimit: 30,
     memberLimit: 1,
   },
   premium: {

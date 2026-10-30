@@ -283,10 +283,10 @@ export default function BillingPage() {
                 planKey === "free"
                   ? [
                       "All current modules",
-                      "50 sales per calendar month",
-                      "50 expenses per calendar month",
-                      "50 invoices per calendar month",
-                      "50 products and 50 customers per month",
+                      "30 sales per calendar month",
+                      "30 expenses per calendar month",
+                      "30 invoices per calendar month",
+                      "30 products and 30 customers per month",
                       "1 business member",
                     ]
                   : planKey === "premium"
