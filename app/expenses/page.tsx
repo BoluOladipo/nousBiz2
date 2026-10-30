@@ -487,7 +487,7 @@ export default function ExpensesPage() {
 
             <div className="overflow-x-auto">
 
-              <table className="w-full min-w-[800px] text-left">
+              <table className="mobile-card-table w-full min-w-[800px] text-left">
 
                 <thead>
                   <tr className="border-b border-[#E5E7EB] bg-[#F9FAFB] text-xs font-semibold uppercase tracking-wide text-[#6B7280]">
@@ -524,7 +524,7 @@ export default function ExpensesPage() {
                       className="border-b border-[#F3F4F6] last:border-0 hover:bg-[#FAFAFA]"
                     >
 
-                      <td className="px-5 py-4">
+                      <td className="px-5 py-4" data-label="Description">
 
                         <div>
                           <p className="text-sm font-semibold">
@@ -540,7 +540,7 @@ export default function ExpensesPage() {
 
                       </td>
 
-                      <td className="px-5 py-4">
+                      <td className="px-5 py-4" data-label="Category">
 
                         <span className="inline-flex rounded-full bg-indigo-50 px-2.5 py-1 text-xs font-semibold text-[#1E84E7]">
                           {expense.category_id
@@ -552,13 +552,13 @@ export default function ExpensesPage() {
 
                       </td>
 
-                      <td className="px-5 py-4 text-sm text-[#6B7280]">
+                      <td className="px-5 py-4 text-sm text-[#6B7280]" data-label="Date">
                         {formatDate(
                           expense.expense_date
                         )}
                       </td>
 
-                      <td className="px-5 py-4 text-sm">
+                      <td className="px-5 py-4 text-sm" data-label="Payment">
                         {
                           paymentMethods.find(
                             (method) =>
@@ -568,7 +568,7 @@ export default function ExpensesPage() {
                         }
                       </td>
 
-                      <td className="px-5 py-4 text-right text-sm font-semibold text-red-600">
+                      <td className="px-5 py-4 text-right text-sm font-semibold text-red-600" data-label="Amount">
                         − {formatCurrency(
                           Number(expense.amount)
                         )}

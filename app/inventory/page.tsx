@@ -510,7 +510,7 @@ export default function InventoryPage() {
 
             <div className="overflow-x-auto">
 
-              <table className="w-full min-w-[950px] text-left">
+              <table className="mobile-card-table w-full min-w-[950px] text-left">
 
                 <thead>
                   <tr className="border-b border-[#E5E7EB] bg-[#F9FAFB] text-xs font-semibold uppercase tracking-wide text-[#6B7280]">
@@ -562,7 +562,7 @@ export default function InventoryPage() {
                         className="border-b border-[#F3F4F6] last:border-0 hover:bg-[#FAFAFA]"
                       >
 
-                        <td className="px-5 py-4">
+                        <td className="px-5 py-4" data-label="Product">
 
                           <div className="flex items-center gap-3">
 
@@ -586,11 +586,11 @@ export default function InventoryPage() {
 
                         </td>
 
-                        <td className="px-5 py-4 text-sm text-[#6B7280]">
+                        <td className="px-5 py-4 text-sm text-[#6B7280]" data-label="SKU">
                           {product.sku ?? "—"}
                         </td>
 
-                        <td className="px-5 py-4">
+                        <td className="px-5 py-4" data-label="Current stock">
 
                           <span className="text-sm font-semibold">
                             {Number(
@@ -607,7 +607,7 @@ export default function InventoryPage() {
 
                         </td>
 
-                        <td className="px-5 py-4">
+                        <td className="px-5 py-4" data-label="Status">
 
                           <span
                             className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${status.className}`}
@@ -617,17 +617,17 @@ export default function InventoryPage() {
 
                         </td>
 
-                        <td className="px-5 py-4 text-sm font-medium">
+                        <td className="px-5 py-4 text-sm font-medium" data-label="Selling price">
                           {formatCurrency(
                             Number(product.selling_price)
                           )}
                         </td>
 
-                        <td className="px-5 py-4 text-sm font-medium">
+                        <td className="px-5 py-4 text-sm font-medium" data-label="Inventory value">
                           {formatCurrency(inventoryValue)}
                         </td>
 
-                        <td className="px-5 py-4">
+                        <td className="px-5 py-4" data-label="Actions">
 
                           <div className="flex items-center justify-end gap-2">
 

@@ -563,7 +563,7 @@ export default function SalesPage() {
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[850px] text-left">
+              <table className="mobile-card-table w-full min-w-[850px] text-left">
                 <thead>
                   <tr className="border-b border-[#E5E7EB] bg-[#F9FAFB] text-xs font-semibold uppercase tracking-wide text-[#6B7280]">
                     <th className="px-5 py-4">Sale</th>
@@ -588,13 +588,13 @@ export default function SalesPage() {
                         key={sale.id}
                         className="border-b border-[#F3F4F6] last:border-0 hover:bg-[#FAFAFA]"
                       >
-                        <td className="px-5 py-4">
+                        <td className="px-5 py-4" data-label="Sale">
                           <span className="font-semibold">
                             {sale.sale_number}
                           </span>
                         </td>
 
-                        <td className="px-5 py-4">
+                        <td className="px-5 py-4" data-label="Customer">
                           <div className="flex items-center gap-2">
                             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-50 text-[#1E84E7]">
                               <User className="h-4 w-4" />
@@ -606,17 +606,17 @@ export default function SalesPage() {
                           </div>
                         </td>
 
-                        <td className="px-5 py-4 text-sm text-[#6B7280]">
+                        <td className="px-5 py-4 text-sm text-[#6B7280]" data-label="Date">
                           {formatDate(sale.sold_at)}
                         </td>
 
-                        <td className="px-5 py-4 text-sm">
+                        <td className="px-5 py-4 text-sm" data-label="Payment">
                           {getPaymentMethodLabel(
                             sale.payment_method
                           )}
                         </td>
 
-                        <td className="px-5 py-4">
+                        <td className="px-5 py-4" data-label="Status">
                           <span
                             className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${
                               sale.payment_status === "paid"
@@ -633,7 +633,7 @@ export default function SalesPage() {
                           </span>
                         </td>
 
-                        <td className="px-5 py-4 text-right text-sm font-semibold">
+                        <td className="px-5 py-4 text-right text-sm font-semibold" data-label="Amount">
                           {formatCurrency(Number(sale.total))}
                         </td>
                       </tr>

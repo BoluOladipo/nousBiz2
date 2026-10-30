@@ -824,7 +824,7 @@ export default function InvoicesPage() {
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="min-w-full">
+              <table className="mobile-card-table min-w-full">
                 <thead>
                   <tr className="border-b border-gray-200 bg-gray-50/70 text-left">
                     <th className="px-5 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500">
@@ -863,7 +863,7 @@ export default function InvoicesPage() {
                       key={invoice.id}
                       className="transition hover:bg-gray-50"
                     >
-                      <td className="px-5 py-4">
+                      <td className="px-5 py-4" data-label="Invoice">
                         <button
                           type="button"
                           onClick={() => openDetails(invoice)}
@@ -873,7 +873,7 @@ export default function InvoicesPage() {
                         </button>
                       </td>
 
-                      <td className="px-5 py-4">
+                      <td className="px-5 py-4" data-label="Customer">
                         <div className="flex items-center gap-2">
                           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100">
                             <User className="h-4 w-4 text-gray-500" />
@@ -887,18 +887,18 @@ export default function InvoicesPage() {
                         </div>
                       </td>
 
-                      <td className="px-5 py-4 text-sm text-gray-600">
+                      <td className="px-5 py-4 text-sm text-gray-600" data-label="Date">
                         {formatDate(
                           invoice.issued_at ||
                             invoice.created_at
                         )}
                       </td>
 
-                      <td className="px-5 py-4 text-sm text-gray-600">
+                      <td className="px-5 py-4 text-sm text-gray-600" data-label="Due">
                         {formatDate(invoice.due_date)}
                       </td>
 
-                      <td className="px-5 py-4">
+                      <td className="px-5 py-4" data-label="Amount">
                         <div className="font-semibold text-gray-900">
                           {formatCurrency(
                             Number(invoice.total || 0)
@@ -919,7 +919,7 @@ export default function InvoicesPage() {
                         )}
                       </td>
 
-                      <td className="px-5 py-4">
+                      <td className="px-5 py-4" data-label="Status">
                         <span
                           className={
                             "inline-flex rounded-full px-3 py-1 text-xs font-semibold " +
@@ -930,7 +930,7 @@ export default function InvoicesPage() {
                         </span>
                       </td>
 
-                      <td className="px-5 py-4 text-right">
+                      <td className="px-5 py-4 text-right" data-label="Action">
                         <button
                           type="button"
                           onClick={() => openDetails(invoice)}

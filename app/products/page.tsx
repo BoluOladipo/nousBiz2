@@ -227,7 +227,7 @@ export default function ProductsPage() {
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[700px] text-left">
+              <table className="mobile-card-table w-full min-w-[700px] text-left">
                 <thead className="border-b border-slate-200 bg-slate-50">
                   <tr>
                     <th className="px-5 py-3 text-xs font-medium uppercase tracking-wide text-slate-500">
@@ -266,31 +266,31 @@ export default function ProductsPage() {
 
                     return (
                       <tr key={product.id} className="hover:bg-slate-50">
-                        <td className="px-5 py-4">
+                        <td className="px-5 py-4" data-label="Name">
                           <p className="text-sm font-medium text-slate-900">
                             {product.name}
                           </p>
                         </td>
 
-                        <td className="px-5 py-4 text-sm capitalize text-slate-500">
+                        <td className="px-5 py-4 text-sm capitalize text-slate-500" data-label="Type">
                           {product.item_type}
                         </td>
 
-                        <td className="px-5 py-4 text-sm text-slate-500">
+                        <td className="px-5 py-4 text-sm text-slate-500" data-label="SKU">
                           {product.sku || "—"}
                         </td>
 
-                        <td className="px-5 py-4 text-sm font-medium text-slate-900">
+                        <td className="px-5 py-4 text-sm font-medium text-slate-900" data-label="Price">
                           ₦{Number(product.selling_price).toLocaleString()}
                         </td>
 
-                        <td className="px-5 py-4 text-sm text-slate-500">
+                        <td className="px-5 py-4 text-sm text-slate-500" data-label="Stock">
                           {product.item_type === "service"
                             ? "—"
                             : product.stock_quantity}
                         </td>
 
-                        <td className="px-5 py-4">
+                        <td className="px-5 py-4" data-label="Status">
                           <span
                             className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${
                               !product.is_active
@@ -308,7 +308,7 @@ export default function ProductsPage() {
                           </span>
                         </td>
 
-                        <td className="px-5 py-4 text-right">
+                        <td className="px-5 py-4 text-right" data-label="Actions">
                           <button
                             type="button"
                             className="rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600"

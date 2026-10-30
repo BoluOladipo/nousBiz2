@@ -234,7 +234,7 @@ export default function CustomersPage() {
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[700px] text-left">
+              <table className="mobile-card-table w-full min-w-[700px] text-left">
                 <thead className="border-b border-slate-200 bg-slate-50">
                   <tr>
                     <th className="px-5 py-3 text-xs font-medium uppercase tracking-wide text-slate-500">
@@ -263,7 +263,7 @@ export default function CustomersPage() {
                       key={customer.id}
                       className="transition hover:bg-slate-50"
                     >
-                      <td className="px-5 py-4">
+                      <td className="px-5 py-4" data-label="Customer">
                         <div className="flex items-center gap-3">
                           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-50 text-sm font-semibold text-indigo-600">
                             {customer.name.charAt(0).toUpperCase()}
@@ -275,19 +275,19 @@ export default function CustomersPage() {
                         </div>
                       </td>
 
-                      <td className="px-5 py-4 text-sm text-slate-500">
+                      <td className="px-5 py-4 text-sm text-slate-500" data-label="Phone">
                         {customer.phone || "—"}
                       </td>
 
-                      <td className="px-5 py-4 text-sm text-slate-500">
+                      <td className="px-5 py-4 text-sm text-slate-500" data-label="Email">
                         {customer.email || "—"}
                       </td>
 
-                      <td className="px-5 py-4 text-sm text-slate-500">
+                      <td className="px-5 py-4 text-sm text-slate-500" data-label="Added">
                         {new Date(customer.created_at).toLocaleDateString()}
                       </td>
 
-                      <td className="px-5 py-4 text-right">
+                      <td className="px-5 py-4 text-right" data-label="Actions">
                         <button
                           type="button"
                           className="rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
