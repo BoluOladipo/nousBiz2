@@ -16,9 +16,9 @@ export const PLAN_CATALOG = {
   enterprise: {
     name: "Enterprise",
     amount: 9000,
-    description: "Unlimited monthly records and team access.",
+    description: "Everything in Premium, plus a shared workspace for your team.",
     recordLimit: null,
-    memberLimit: 10,
+    memberLimit: 20,
   },
   standard_x: {
     name: "Standard X",
