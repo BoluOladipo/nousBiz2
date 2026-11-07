@@ -4,7 +4,12 @@ import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Check, Loader2, Trash2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
-import { PLAN_CATALOG, type PaidPlan, type PlanName } from "@/lib/billing/plans";
+import {
+  isPaidPlan,
+  PLAN_CATALOG,
+  type PaidPlan,
+  type PlanName,
+} from "@/lib/billing/plans";
 
 type TeamMember = {
   userId: string;
@@ -93,7 +98,7 @@ export default function BillingPage() {
           new Date(subscription.current_period_end).getTime() > Date.now());
       const currentPlan =
         subscriptionIsActive &&
-        (subscription.plan === "premium" || subscription.plan === "enterprise")
+        isPaidPlan(subscription.plan)
           ? subscription.plan
           : "free";
 
@@ -273,7 +278,7 @@ export default function BillingPage() {
 
         <section
           aria-label="Available subscription plans"
-          className="mt-8 grid gap-5 lg:grid-cols-3"
+          className="mt-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4"
         >
           {(Object.entries(PLAN_CATALOG) as [PlanName, (typeof PLAN_CATALOG)[PlanName]][]).map(
             ([planKey, details]) => {
@@ -296,12 +301,19 @@ export default function BillingPage() {
                         "Unlimited products and customers",
                         "1 business member",
                       ]
-                    : [
+                    : planKey === "enterprise"
+                      ? [
                         "All Premium features",
                         "Unlimited monthly records",
                         "Up to 10 business members",
                         "Enterprise team management",
-                      ];
+                        ]
+                      : [
+                          "All current modules",
+                          "Unlimited monthly entries",
+                          "Unlimited products and customers",
+                          "1 business member",
+                        ];
 
               return (
                 <article

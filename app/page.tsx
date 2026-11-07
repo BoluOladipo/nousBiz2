@@ -345,7 +345,7 @@ export default function Home() {
             more.
           </p>
 
-          <div className="mx-auto mt-10 grid max-w-6xl gap-5 text-left md:grid-cols-3">
+          <div className="mx-auto mt-10 grid max-w-6xl gap-5 text-left md:grid-cols-2 xl:grid-cols-4">
             {Object.entries(PLAN_CATALOG).map(([plan, details]) => {
               const features =
                 plan === "free"
@@ -364,12 +364,19 @@ export default function Home() {
                         "Unlimited products and customers",
                         "1 business member",
                       ]
-                    : [
+                    : plan === "enterprise"
+                      ? [
                         "All Premium features",
                         "Unlimited monthly records",
                         "Up to 10 business members",
                         "Enterprise team management",
-                      ];
+                        ]
+                      : [
+                          "All current modules",
+                          "Unlimited monthly entries",
+                          "Unlimited products and customers",
+                          "1 business member",
+                        ];
 
               return (
                 <article

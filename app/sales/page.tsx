@@ -262,6 +262,15 @@ export default function SalesPage() {
   function addToCart(product: Product) {
     setError("");
 
+    const cartItem = cart.find((item) => item.product.id === product.id);
+    if (
+      product.item_type === "product" &&
+      (cartItem?.quantity ?? 0) >= Number(product.stock_quantity)
+    ) {
+      setError(`There is not enough stock available for ${product.name}.`);
+      return;
+    }
+
     setCart((current) => {
       const existing = current.find(
         (item) => item.product.id === product.id
@@ -296,6 +305,18 @@ export default function SalesPage() {
       return;
     }
 
+    const cartItem = cart.find((item) => item.product.id === productId);
+    if (
+      cartItem?.product.item_type === "product" &&
+      quantity > Number(cartItem.product.stock_quantity)
+    ) {
+      setError(
+        `There is not enough stock available for ${cartItem.product.name}.`
+      );
+      return;
+    }
+
+    setError("");
     setCart((current) =>
       current.map((item) =>
         item.product.id === productId
@@ -341,6 +362,21 @@ export default function SalesPage() {
       return;
     }
 
+    const stockItems = cart.filter(
+      (item) => item.product.item_type === "product"
+    );
+    const insufficientStockItem = stockItems.find(
+      (item) =>
+        item.quantity > Number(item.product.stock_quantity) ||
+        Number(item.product.stock_quantity) < 0
+    );
+    if (insufficientStockItem) {
+      setError(
+        `There is not enough stock available for ${insufficientStockItem.product.name}. Refresh inventory and try again.`
+      );
+      return;
+    }
+
     setSaving(true);
     setError("");
     setSuccess("");
@@ -365,13 +401,41 @@ export default function SalesPage() {
         throw saleError;
       }
 
-      setSuccess("Sale recorded successfully.");
+      const inventoryResults = await Promise.all(
+        stockItems.map((item) =>
+          supabase.rpc("adjust_inventory", {
+            p_business_id: businessId,
+            p_product_id: item.product.id,
+            p_movement_type: "stock_out",
+            p_quantity: item.quantity,
+            p_note: "Stock deducted for a recorded sale.",
+          })
+        )
+      );
+      const failedInventoryItems = inventoryResults.flatMap(
+        (result, index) => {
+          if (!result.error) return [];
+          console.error(
+            `Could not deduct stock for ${stockItems[index].product.name}:`,
+            result.error
+          );
+          return [stockItems[index].product.name];
+        }
+      );
 
       resetSaleForm();
       setShowDrawer(false);
 
       await loadSalesData();
 
+      if (failedInventoryItems.length > 0) {
+        setError(
+          `The sale was recorded, but inventory could not be updated for ${failedInventoryItems.join(", ")}. Please review these items in Inventory.`
+        );
+        return;
+      }
+
+      setSuccess("Sale recorded and inventory updated successfully.");
       setTimeout(() => {
         setSuccess("");
       }, 4000);

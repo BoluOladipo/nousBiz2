@@ -5,7 +5,11 @@ import {
   verifyFlutterwaveTransaction,
 } from "@/lib/billing/flutterwave";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { PLAN_CATALOG, type PaidPlan } from "@/lib/billing/plans";
+import {
+  isPaidPlan,
+  PLAN_CATALOG,
+  type PaidPlan,
+} from "@/lib/billing/plans";
 
 export const runtime = "nodejs";
 
@@ -36,6 +40,9 @@ function getPlanForProviderId(providerPlanId: number): PaidPlan | null {
   }
   if (Number(process.env.FLW_ENTERPRISE_PLAN_ID) === providerPlanId) {
     return "enterprise";
+  }
+  if (Number(process.env.FLW_STANDARD_X_PLAN_ID) === providerPlanId) {
+    return "standard_x";
   }
   return null;
 }
@@ -72,14 +79,16 @@ export async function POST(request: Request) {
 
         if (sessionError) throw sessionError;
         if (session && session.status !== "completed") {
-          if (session.plan !== "premium" && session.plan !== "enterprise") {
+          if (!isPaidPlan(session.plan)) {
             return NextResponse.json({ received: true });
           }
 
           const providerPlanId =
             session.plan === "premium"
               ? Number(process.env.FLW_PREMIUM_PLAN_ID)
-              : Number(process.env.FLW_ENTERPRISE_PLAN_ID);
+              : session.plan === "enterprise"
+                ? Number(process.env.FLW_ENTERPRISE_PLAN_ID)
+                : Number(process.env.FLW_STANDARD_X_PLAN_ID);
 
           if (
             transaction.currency === "NGN" &&
@@ -88,7 +97,7 @@ export async function POST(request: Request) {
             await activateVerifiedPayment({
               transaction,
               businessId: session.business_id,
-              plan: session.plan as PaidPlan,
+              plan: session.plan,
               txRef,
               providerPlanId,
             });

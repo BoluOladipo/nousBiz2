@@ -31,29 +31,73 @@ export default function DashboardNavigation() {
   const [userName, setUserName] = useState("Account");
   const [userEmail, setUserEmail] = useState("");
   const [accountError, setAccountError] = useState("");
+  const [unreadCount, setUnreadCount] = useState(0);
   const isAppRoute = pathname ? appRoutes.has(pathname) : false;
 
   useEffect(() => {
     let active = true;
 
-    supabase.auth.getUser().then(({ data, error }) => {
-      if (!active) return;
-      if (error) {
-        console.error("Could not load account information:", error);
-        return;
-      }
+    async function loadNavigationData() {
+      try {
+        const {
+          data: { user },
+          error: userError,
+        } = await supabase.auth.getUser();
 
-      const email = data.user?.email ?? "";
-      setUserEmail(email);
-      setUserName(
-        data.user?.user_metadata?.full_name ||
-          email.split("@")[0] ||
-          "Account"
-      );
-    });
+        if (userError) throw userError;
+        if (!active) return;
+
+        const email = user?.email ?? "";
+        setUserEmail(email);
+        setUserName(
+          user?.user_metadata?.full_name || email.split("@")[0] || "Account"
+        );
+
+        if (!user) {
+          setUnreadCount(0);
+          return;
+        }
+
+        const { data: membership, error: membershipError } = await supabase
+          .from("business_members")
+          .select("business_id")
+          .eq("user_id", user.id)
+          .order("created_at", { ascending: true })
+          .limit(1)
+          .maybeSingle();
+
+        if (membershipError) throw membershipError;
+        if (!membership) {
+          setUnreadCount(0);
+          return;
+        }
+
+        const { count, error: notificationsError } = await supabase
+          .from("notifications")
+          .select("id", { count: "exact", head: true })
+          .eq("business_id", membership.business_id)
+          .eq("user_id", user.id)
+          .eq("is_read", false);
+
+        if (notificationsError) throw notificationsError;
+        if (active) setUnreadCount(count ?? 0);
+      } catch (error) {
+        if (active) {
+          console.error("Could not load navigation information:", error);
+        }
+      }
+    }
+
+    void loadNavigationData();
+    const intervalId = window.setInterval(() => {
+      void loadNavigationData();
+    }, 30000);
+    window.addEventListener("focus", loadNavigationData);
 
     return () => {
       active = false;
+      window.clearInterval(intervalId);
+      window.removeEventListener("focus", loadNavigationData);
     };
   }, [supabase]);
 
@@ -122,9 +166,20 @@ export default function DashboardNavigation() {
             <Link
               href="/notifications"
               className="rounded-xl p-2.5 text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
-              aria-label="Notifications"
+              aria-label={
+                unreadCount > 0
+                  ? `Notifications, ${unreadCount} unread`
+                  : "Notifications"
+              }
             >
-              <Bell className="h-5 w-5" />
+              <span className="relative block">
+                <Bell className="h-5 w-5" />
+                {unreadCount > 0 && (
+                  <span className="absolute -right-2.5 -top-2 flex min-h-4 min-w-4 items-center justify-center rounded-full bg-red-600 px-1 text-[10px] font-semibold leading-none text-white">
+                    {unreadCount > 99 ? "99+" : unreadCount}
+                  </span>
+                )}
+              </span>
             </Link>
 
             <div className="hidden h-8 w-px bg-slate-200 sm:block" />

@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { getOwnedBusiness } from "@/lib/billing/server";
-import { PLAN_CATALOG, type PaidPlan } from "@/lib/billing/plans";
+import {
+  isPaidPlan,
+  PLAN_CATALOG,
+  type PaidPlan,
+} from "@/lib/billing/plans";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 export const runtime = "nodejs";
@@ -8,22 +12,24 @@ export const runtime = "nodejs";
 export async function POST(request: Request) {
   try {
     const body = (await request.json()) as { plan?: unknown };
-    if (body.plan !== "premium" && body.plan !== "enterprise") {
+    if (!isPaidPlan(body.plan)) {
       return NextResponse.json({ error: "Select a valid paid plan." }, { status: 400 });
     }
 
-    const plan = body.plan as PaidPlan;
+    const plan: PaidPlan = body.plan;
     const planIdValue =
       plan === "premium"
         ? process.env.FLW_PREMIUM_PLAN_ID
-        : process.env.FLW_ENTERPRISE_PLAN_ID;
+        : plan === "enterprise"
+          ? process.env.FLW_ENTERPRISE_PLAN_ID
+          : process.env.FLW_STANDARD_X_PLAN_ID;
     const appUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
     if (!process.env.FLW_SECRET_KEY || !planIdValue || !appUrl) {
       return NextResponse.json(
         {
           error:
-            "Payments are not configured. Set FLW_SECRET_KEY, both Flutterwave plan IDs, and NEXT_PUBLIC_SITE_URL.",
+            "Payments are not configured. Set FLW_SECRET_KEY, the selected Flutterwave plan ID, and NEXT_PUBLIC_SITE_URL.",
         },
         { status: 503 }
       );

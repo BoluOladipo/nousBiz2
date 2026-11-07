@@ -31,12 +31,12 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 ## Billing setup
 
-The app offers Free, Premium (₦4,500/month), and Enterprise (₦9,000/month).
-Free accounts can create up to 30 sales, expenses, invoices, products/services,
-and customers per calendar month in Africa/Lagos time (30 of each). Premium
-removes these record limits. Enterprise also supports up to 10 business
-members, including the owner. Existing records remain available when a plan
-changes.
+The app offers Free, Premium (₦4,500/month), Enterprise (₦9,000/month), and
+Standard X (₦15,000/month). Free accounts can create up to 30 sales, expenses,
+invoices, products/services, and customers per calendar month in Africa/Lagos
+time (30 of each). All paid plans remove these record limits. Enterprise also
+supports up to 10 business members, including the owner. Existing records
+remain available when a plan changes.
 
 ### 1. Apply the Supabase migration
 
@@ -60,16 +60,18 @@ including inserts made through existing database functions.
 
 ### 2. Create Flutterwave payment plans
 
-In the Flutterwave Dashboard, create two **monthly** payment plans in **NGN**:
+In the Flutterwave Dashboard, create three **monthly** payment plans in **NGN**:
 
 | Plan | Amount | Interval |
 |---|---:|---|
 | NousBiz Premium | 4,500 | Monthly |
 | NousBiz Enterprise | 9,000 | Monthly |
+| NousBiz Standard X | 15,000 | Monthly |
 
-Copy each plan's numeric ID into `FLW_PREMIUM_PLAN_ID` and
-`FLW_ENTERPRISE_PLAN_ID`. Flutterwave recurring payment plans require card
-payments.
+Set the Premium, Enterprise, and Standard X numeric plan IDs in
+`FLW_PREMIUM_PLAN_ID`, `FLW_ENTERPRISE_PLAN_ID`, and
+`FLW_STANDARD_X_PLAN_ID`, respectively.
+Flutterwave recurring payment plans require card payments.
 
 ### 3. Configure server environment variables
 
@@ -86,6 +88,7 @@ SUPABASE_SERVICE_ROLE_KEY=
 FLW_SECRET_KEY=
 FLW_PREMIUM_PLAN_ID=
 FLW_ENTERPRISE_PLAN_ID=
+FLW_STANDARD_X_PLAN_ID=
 FLW_WEBHOOK_SECRET_HASH=
 ```
 
@@ -117,6 +120,10 @@ payments.
 
 Team invitations are available to Enterprise owners from **Plans & billing**.
 Supabase Auth email invitations must be configured for the project.
+
+Add `/reset-password` to the Supabase Auth redirect URL allow list for both
+local development and the production domain so password-reset emails can
+return users to the password update form.
 
 ## Install NousBiz as an app
 

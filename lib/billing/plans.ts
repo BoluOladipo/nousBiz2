@@ -20,10 +20,25 @@ export const PLAN_CATALOG = {
     recordLimit: null,
     memberLimit: 10,
   },
+  standard_x: {
+    name: "Standard X",
+    amount: 15000,
+    description: "Unlimited monthly entries for a growing business.",
+    recordLimit: null,
+    memberLimit: 1,
+  },
 } as const;
 
-export type PaidPlan = "premium" | "enterprise";
+export type PaidPlan = "premium" | "enterprise" | "standard_x";
 export type PlanName = keyof typeof PLAN_CATALOG;
+
+export function isPaidPlan(value: unknown): value is PaidPlan {
+  return (
+    value === "premium" ||
+    value === "enterprise" ||
+    value === "standard_x"
+  );
+}
 
 export const BILLABLE_RECORDS = [
   "sales",

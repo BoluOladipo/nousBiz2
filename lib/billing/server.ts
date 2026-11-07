@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import type { PlanName } from "@/lib/billing/plans";
 
 export async function getOwnedBusiness() {
   const supabase = await createClient();
@@ -48,7 +49,7 @@ export async function getActiveSubscription(businessId: string) {
   }
 
   return {
-    plan: data.plan as "premium" | "enterprise" | "free",
+    plan: data.plan as PlanName,
     currentPeriodEnd: data.current_period_end as string | null,
     cancelAtPeriodEnd: Boolean(data.cancel_at_period_end),
   };

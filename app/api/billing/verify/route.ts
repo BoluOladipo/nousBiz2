@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
-import { PLAN_CATALOG, type PaidPlan } from "@/lib/billing/plans";
+import {
+  isPaidPlan,
+  PLAN_CATALOG,
+  type PaidPlan,
+} from "@/lib/billing/plans";
 import {
   activateVerifiedPayment,
   verifyFlutterwaveTransaction,
@@ -44,12 +48,12 @@ export async function GET(request: Request) {
     if (session.status === "completed") {
       return billingRedirect(appUrl, "success");
     }
-    if (session.plan !== "premium" && session.plan !== "enterprise") {
+    if (!isPaidPlan(session.plan)) {
       return billingRedirect(appUrl, "failed");
     }
 
     const transaction = await verifyFlutterwaveTransaction(transactionId);
-    const plan = session.plan as PaidPlan;
+    const plan: PaidPlan = session.plan;
     if (
       transaction.status !== "successful" ||
       transaction.tx_ref !== txRef ||
@@ -68,7 +72,9 @@ export async function GET(request: Request) {
     const providerPlanId =
       plan === "premium"
         ? Number(process.env.FLW_PREMIUM_PLAN_ID)
-        : Number(process.env.FLW_ENTERPRISE_PLAN_ID);
+        : plan === "enterprise"
+          ? Number(process.env.FLW_ENTERPRISE_PLAN_ID)
+          : Number(process.env.FLW_STANDARD_X_PLAN_ID);
 
     await activateVerifiedPayment({
       transaction,
