@@ -303,11 +303,10 @@ export default function BillingPage() {
                       ]
                     : planKey === "enterprise"
                       ? [
-                        "All Premium features",
-                        "Unlimited monthly records",
-                        "Up to 10 business members",
-                        "Enterprise team management",
-                        ]
+                        "Everything in Premium",
+                        `Up to ${details.memberLimit} total members (19 invited seats)`,
+                        "Invite your team into one shared workspace",
+                        "No per-seat add-on fees",
                       : [
                           "All current modules",
                           "Unlimited monthly entries",
@@ -417,12 +416,12 @@ export default function BillingPage() {
                 </h2>
                 <p className="mt-1 text-sm text-slate-500">
                   {plan === "enterprise"
-                    ? "Invite up to 10 members, including you as the owner."
+                                        ? `Invite up to ${PLAN_CATALOG.enterprise.memberLimit - 1} team members (20 total, including you as the owner).`
                     : "Team access is limited to the business owner on this plan."}
                 </p>
               </div>
               <p className="text-sm font-medium text-slate-700">
-                {members.length} / {plan === "enterprise" ? 10 : 1} members
+                                {members.length} / {PLAN_CATALOG.enterprise.memberLimit} members
               </p>
             </div>
 
@@ -445,7 +444,10 @@ export default function BillingPage() {
                 />
                 <button
                   type="submit"
-                  disabled={teamBusy || members.length >= 10}
+                  disabled={
+                    teamBusy ||
+                    members.length >= PLAN_CATALOG.enterprise.memberLimit
+                  }
                   className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {teamBusy && <Loader2 className="h-4 w-4 animate-spin" />}
