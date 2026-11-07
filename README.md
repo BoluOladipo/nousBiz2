@@ -35,7 +35,8 @@ The app offers Free, Premium (₦4,500/month), Enterprise (₦9,000/month), and
 Standard X (₦15,000/month). Free accounts can create up to 30 sales, expenses,
 invoices, products/services, and customers per calendar month in Africa/Lagos
 time (30 of each). All paid plans remove these record limits. Enterprise also
-supports up to 10 business members, including the owner. Existing records
+supports up to 20 business members (19 invited seats), including the owner,
+for ₦9,000/month. Existing records
 remain available when a plan changes.
 
 ### 1. Apply the Supabase migration
