@@ -34,10 +34,10 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The app offers Free, Premium (₦4,500/month), Enterprise (₦9,000/month), and
 Standard X (₦15,000/month). Free accounts can create up to 30 sales, expenses,
 invoices, products/services, and customers per calendar month in Africa/Lagos
-time (30 of each). All paid plans remove these record limits. Enterprise also
-supports up to 20 business members (19 invited seats), including the owner,
-for ₦9,000/month. Existing records
-remain available when a plan changes.
+time (30 of each). Premium allows up to 60 and Enterprise up to 90 new records
+per category each month; Standard X has unlimited monthly entries. Enterprise
+also supports up to 20 business members (19 invited seats), including the
+owner, for ₦9,000/month. Existing records remain available when a plan changes.
 
 ### 1. Apply the Supabase migration
 
@@ -56,8 +56,9 @@ The CLI may prompt for the database password when linking. Enter it in the
 prompt; do not put it in a command, source file, or chat. Confirm the linked
 project before running `db push`. This applies
 `supabase/migrations/20261029000000_add_billing_and_plan_limits.sql` after
-the other migrations. The database enforces Free-plan limits on inserts,
-including inserts made through existing database functions.
+the other migrations. The database enforces the monthly record limits for Free,
+Premium, and Enterprise on inserts, including inserts made through existing
+database functions.
 
 ### 2. Create Flutterwave payment plans
 
