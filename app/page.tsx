@@ -366,11 +366,10 @@ export default function Home() {
                       ]
                     : plan === "enterprise"
                       ? [
-                        "All Premium features",
-                        "Unlimited monthly records",
-                        "Up to 10 business members",
-                        "Enterprise team management",
-                        ]
+                        "Everything in Premium",
+                        `Up to ${details.memberLimit} total members (19 invited seats)`,
+                        "Invite your team into one shared workspace",
+                        "No per-seat add-on fees",
                       : [
                           "All current modules",
                           "Unlimited monthly entries",
