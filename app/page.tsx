@@ -370,7 +370,8 @@ export default function Home() {
                         `Up to ${details.memberLimit} total members (19 invited seats)`,
                         "Invite your team into one shared workspace",
                         "No per-seat add-on fees",
-                      : [
+                      
+                        ]: [
                           "All current modules",
                           "Unlimited monthly entries",
                           "Unlimited products and customers",
