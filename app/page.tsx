@@ -360,18 +360,18 @@ export default function Home() {
                   : plan === "premium"
                     ? [
                         "All current modules",
-                        "Unlimited monthly records",
-                        "Unlimited products and customers",
+                        `Up to ${details.recordLimit} each of sales, expenses, invoices, products, and customers per month`,
                         "1 business member",
                       ]
                     : plan === "enterprise"
                       ? [
-                        "Everything in Premium",
-                        `Up to ${details.memberLimit} total members (19 invited seats)`,
-                        "Invite your team into one shared workspace",
-                        "No per-seat add-on fees",
-                      
-                        ]: [
+                          "Everything in Premium",
+                          `Up to ${details.recordLimit} each of sales, expenses, invoices, products, and customers per month`,
+                          `Up to ${details.memberLimit} total members (19 invited seats)`,
+                          "Invite your team into one shared workspace",
+                          "No per-seat add-on fees",
+                        ]
+                      : [
                           "All current modules",
                           "Unlimited monthly entries",
                           "Unlimited products and customers",
