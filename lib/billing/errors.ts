@@ -9,8 +9,12 @@ export function getPlanLimitMessage(error: unknown): string | null {
         ? error.message
         : "";
 
-  const prefix = "FREE_PLAN_LIMIT_REACHED: ";
-  if (!message.startsWith(prefix)) return null;
+  const prefixes = [
+    "FREE_PLAN_LIMIT_REACHED: ",
+    "PAID_PLAN_LIMIT_REACHED: ",
+  ];
+  const prefix = prefixes.find((candidate) => message.startsWith(candidate));
+  if (!prefix) return null;
 
   return message.slice(prefix.length);
 }

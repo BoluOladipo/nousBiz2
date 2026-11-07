@@ -9,15 +9,15 @@ export const PLAN_CATALOG = {
   premium: {
     name: "Premium",
     amount: 4500,
-    description: "Unlimited monthly records for a growing business.",
-    recordLimit: null,
+    description: "Up to 60 new records per category each month.",
+    recordLimit: 60,
     memberLimit: 1,
   },
   enterprise: {
     name: "Enterprise",
     amount: 9000,
-    description: "Everything in Premium, plus a shared workspace for your team.",
-    recordLimit: null,
+    description: "Up to 90 new records per category each month, plus a shared team workspace.",
+    recordLimit: 90,
     memberLimit: 20,
   },
   standard_x: {
