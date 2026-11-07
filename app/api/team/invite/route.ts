@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { PLAN_CATALOG } from "@/lib/billing/plans";
 import { getActiveSubscription, getOwnedBusiness } from "@/lib/billing/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 
@@ -96,9 +97,9 @@ export async function POST(request: Request) {
       .eq("business_id", businessId);
 
     if (countError) throw countError;
-    if ((count ?? 0) >= 10) {
+    if ((count ?? 0) >= PLAN_CATALOG.enterprise.memberLimit) {
       return NextResponse.json(
-        { error: "Enterprise includes up to 10 members, including the owner." },
+        { error: `Enterprise includes up to ${PLAN_CATALOG.enterprise.memberLimit} members, including the owner.` },
         { status: 409 }
       );
     }
