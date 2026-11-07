@@ -7,10 +7,10 @@ export default function BrandLogo({
 }) {
   return (
     <Image
-      src="/nous-technology-logo.png"
-      alt="Nous Technology Limited"
-      width={47}
-      height={35}
+      src="/nousbiz-logo.jpg"
+      alt="NousBiz"
+      width={115}
+      height={79}
       className={className}
       priority
     />
